@@ -4,3 +4,7 @@
 !/README.md
 !/index.html
 !/dp_tier_board.html
+# Rendered past boards (raw snapshots/ stay local)
+!/history/
+!/history/*.html
+!/history/list.js
