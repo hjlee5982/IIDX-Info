@@ -107,6 +107,26 @@ h1{margin:0 0 .55rem;font-size:1.2rem}
 .stats-level{margin:0 0 .75rem;font-size:1.15rem;color:#7eb8ff}
 .stats-charts{display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:stretch}
 @media (max-width:860px){.stats-charts{grid-template-columns:1fr}}
+@media (max-width:640px){
+header{padding:.5rem .75rem}
+h1{font-size:.95rem;margin:0 0 .4rem;line-height:2rem;max-width:calc(100% - 10.5rem);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.header-toolbar{display:block;margin-bottom:.3rem}
+.header-actions{position:absolute;top:.5rem;right:.75rem;gap:.3rem}
+.snap-select{height:2rem;font-size:.72rem;max-width:8rem;padding:0 .3rem;border-radius:6px}
+.capture-btn{width:2rem;height:2rem;border-radius:6px}
+.capture-icon{width:18px;height:18px}
+.tabs{gap:.3rem}
+.tab{padding:.3rem .5rem;font-size:.78rem;border-radius:5px}
+.tab-compare{margin-left:0}
+.dan-badge{font-size:.66rem;padding:0 .1rem}
+.search-wrap{margin:.1rem 0 .25rem;max-width:none}
+.search-input{padding:.38rem .6rem;font-size:.82rem}
+.header-meta{font-size:.66rem}
+.board-panel{padding:.6rem .75rem}
+.tier-block{grid-template-columns:3rem 1fr;gap:.45rem}
+.tier-label{font-size:.92rem;top:calc(var(--hdr,9rem) + .25rem)}
+.tier-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.3rem}
+}
 .chart-card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:.85rem 1rem}
 .chart-title{margin:0 0 .75rem;font-size:.95rem;font-weight:700}
 .chart-sub{color:var(--muted);font-weight:500;font-size:.82rem}
@@ -29631,6 +29651,12 @@ max: 3814"><span class="version">TRI</span><span class="name">お米の美味し
     t.addEventListener("click", function(){ show(t.getAttribute("data-board")); });
   });
   (function(){
+    var hdr = document.querySelector("header");
+    function setHdr(){ if (hdr) document.documentElement.style.setProperty("--hdr", hdr.offsetHeight + "px"); }
+    setHdr();
+    window.addEventListener("resize", setHdr);
+  })();
+  (function(){
     var want = decodeURIComponent((location.hash || "").slice(1));
     if (want && document.getElementById("board-" + want)) show(want);
   })();
@@ -29647,7 +29673,8 @@ max: 3814"><span class="version">TRI</span><span class="name">お米の美味し
       list.forEach(function(s, i){
         var o = document.createElement("option");
         o.value = s.id;
-        o.textContent = (i === 0 ? "최신 · " : "") + s.label;
+        var narrow = window.matchMedia && window.matchMedia("(max-width:640px)").matches;
+        o.textContent = (i === 0 ? "최신 · " : "") + (narrow ? s.label.slice(5) : s.label);
         if (s.id === current) o.selected = true;
         sel.appendChild(o);
       });
